@@ -1,3 +1,5 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import {List} from '@material-ui/core'
 import {ListItem} from '@material-ui/core'
 import {ListItemText} from '@material-ui/core'
@@ -6,25 +8,41 @@ import {TextField} from '@material-ui/core'
 import {Button} from '@material-ui/core'
 
 const date = new Date();
-let tasks = ["hello"];
+//let tasks = ["a", "b"];
 
-function addTask(){
-    let task = document.getElementById("task-input").value + " " + date + " " + date.getTime();
+function duplicate(task, tasks){
     for(let i = 0; i < tasks.length; i ++){
         if(task === tasks[i]){
-            return;
+            return true;
         }
     }
-    tasks.push(task);
-    console.log(tasks);
+    return false;
 }
 
-export default function Body(){
-    return (
+class TaskList extends React.Component{
+    constructor(){
+        super();
+        this.state = {tasks: []};
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
+    handleSubmit(event){
+        let task = document.getElementById("task-input").value + " " + date + " " + date.getTime();
+        if(duplicate(task, this.state.tasks)){
+            return; //Add an duplicate Alert
+        }
+        let newtasks = this.state.tasks;
+        newtasks.push(task);
+        this.setState({ tasks: newtasks});
+    }
+    
+    render(){
+        return(
         <body>
-        <List>
+         <List>
           <h1>Your Tasks</h1>
-          {tasks.map((task) => {
+          {this.state.tasks.map((task) => {
+            console.log(task);
             const labelId = `checkbox-list-label-${task}`;
             return(
             <ListItem key={task} role={undefined}>
@@ -38,10 +56,16 @@ export default function Body(){
           <TextField id="task-input" label="Input a task..." />
           <Button
             onClick={() => {
-              addTask();
+              this.handleSubmit();
             }}
           >Submit</Button>
         </form>
         </body>
-    );
+           
+        )
+    }
+}
+
+export default function Body(){
+    return new TaskList();
 }
