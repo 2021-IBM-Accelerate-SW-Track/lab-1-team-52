@@ -69,7 +69,7 @@ class TaskList extends React.Component{
           <TextField id="task-input" data-testid="new-item-input" label="Input a task..." />
           <Button
             onClick={() => {this.handleSubmit();}}
-            data-test-id="new-item-button">Submit</Button>
+            data-testid="new-item-button">Submit</Button>
         </form>
         </body>
         )
