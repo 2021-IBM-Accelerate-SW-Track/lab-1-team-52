@@ -56,21 +56,22 @@ class TaskList extends React.Component{
             return(
             <ListItem key={task[0]} role={undefined}>
               <Checkbox edge="start" disableRipple inputProps={{'aria-labelledby': labelId}}/>
-              <TextField id={labelId} defaultValue={`${task[0]}}`}/>
+              <TextField id={labelId} defaultValue={`${task[0]}`}/>
               <ListItemText id={labelId} primary={`${task[1]}`}/>
               <ListItemSecondaryAction>
-                <Button edge="end" onClick={() => {this.handleDelete(task);}} >Delete</Button>
+                <Button edge="end" onClick={() => {this.handleDelete(task);}}>Delete</Button>
               </ListItemSecondaryAction>
             </ListItem>
             )
           })}
         </List>
         <form noValidate autoComplete="off">
-          <TextField id="task-input" label="Input a task..." />
-          <Button onClick={() => {this.handleSubmit();}} >Submit</Button>
+          <TextField id="task-input" data-testid="new-item-input" label="Input a task..." />
+          <Button
+            onClick={() => {this.handleSubmit();}}
+            data-test-id="new-item-button">Submit</Button>
         </form>
         </body>
-           
         )
     }
 }
