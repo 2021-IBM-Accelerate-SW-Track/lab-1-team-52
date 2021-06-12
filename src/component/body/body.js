@@ -7,10 +7,12 @@ import {ListItemSecondaryAction} from '@material-ui/core'
 import {Checkbox} from '@material-ui/core'
 import {TextField} from '@material-ui/core'
 import {Button} from '@material-ui/core'
+import {ClickAwayListener} from '@material-ui/core'
 
 function duplicate(task, tasks){
     for(let i = 0; i < tasks.length; i ++){
         if(task[0] === tasks[i][0]){
+            alert("Duplicate Detected");
             return true;
         }
     }
@@ -20,8 +22,9 @@ function duplicate(task, tasks){
 class TaskList extends React.Component{
     constructor(){
         super();
-        this.state = {tasks: []};
+        this.state = {tasks: [], change: [-1, ""]};
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
     
     handleSubmit(event){
@@ -35,31 +38,37 @@ class TaskList extends React.Component{
         this.setState({ tasks: newtasks});
     }
     
-    handleDelete(task){
-        let newtasks = [];
-        for(let i = 0; i < this.state.tasks.length; i ++){
-            if(this.state.tasks[i][0] !== task[0]){
-                newtasks.push(this.state.tasks[i]);
-            }
-        }
+    handleDelete(i){
+        let newtasks = this.state.tasks;
+        newtasks.splice(i, 1);
         this.setState({tasks: newtasks});
     }
     
+    handleChange(){
+        if (this.state.change[0] !== -1){
+            let newtasks = this.state.tasks;
+            newtasks[this.state.change[0]][0] = this.state.change[1];
+            this.setState({tasks: newtasks});
+            this.setState({change: [-1, ""]});
+        }
+    }
+
     render(){
         return(
         <body>
          <List>
           <h1>Your Tasks</h1>
-          {this.state.tasks.map((task) => {
-            console.log(task);
-            const labelId = `checkbox-list-label-${task[0]}`;
+          {this.state.tasks.map((task, i) => {
+            const labelId = `label-${i}`;
             return(
             <ListItem key={task[0]} role={undefined}>
               <Checkbox edge="start" disableRipple inputProps={{'aria-labelledby': labelId}}/>
-              <TextField id={labelId} defaultValue={`${task[0]}`}/>
+              <ClickAwayListener onClickAway={() => {this.handleChange(i);}}>
+                <TextField id={labelId} onChange={(e) => {this.setState({change: [i, e.target.value]});} } defaultValue={`${task[0]}`}/>
+              </ClickAwayListener>
               <ListItemText id={labelId} primary={`${task[1]}`}/>
               <ListItemSecondaryAction>
-                <Button edge="end" onClick={() => {this.handleDelete(task);}}>Delete</Button>
+                <Button edge="end" onClick={() => {this.handleDelete(i);}}>Delete</Button>
               </ListItemSecondaryAction>
             </ListItem>
             )
