@@ -4,22 +4,6 @@ import App from './App';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-var Item = class App extends React.Component{
-  constructor(props) {
-    super(props);
-  }
-
-
-  render() {
-    return(
-      <div>
-        <p>{this.props.name}</p>
-        <hr/>
-      </div>
-    );
-  }
-}
-
 var Total = class App extends React.Component{
   render(){
     return(
@@ -60,7 +44,6 @@ var ItemList = class App extends React.Component{
     super(props);
     this.state = {total: 0, 
       itemList: [
-        {name: ""}
     ]};
     this.calculateTotal = this.calculateTotal.bind(this);
     this.createProduct = this.createProduct.bind(this);
@@ -73,16 +56,33 @@ var ItemList = class App extends React.Component{
     })
   }
 
+  delete(i){
+    let newlist = this.state.itemList;
+    newlist.splice(i, 1);
+    this.setState({
+      itemList: this.state.itemList, 
+      total: this.state.total - 1
+    })
+  }
+
   calculateTotal(){
     this.setState({total: this.state.total + 1});
   }
 
   render(){
     var component = this;
-    var items = this.state.itemList.map(function(product){
+    var items = this.state.itemList.map((item, i)=>{
+      console.log(item);
       return(
-        <Item name={product.name} 
-        handleTotal={component.calculateTotal}/>
+        <div>
+        <p>{`${item.name}`}</p>
+        <Button onClick={()=> this.delete(i)}>Delete</Button>
+        {/* <Button onClick={this.delete.bind(this)}>Delete</Button> */}
+
+        <hr/>
+      </div>
+        // <Item name={product.name} 
+        // handleTotal={component.calculateTotal}/>
       );
     });
     return(
