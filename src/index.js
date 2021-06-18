@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
 
 var Total = class App extends React.Component{
   render(){
@@ -78,7 +79,7 @@ var ItemList = class App extends React.Component{
         <p>{`${item.name}`}</p>
         <Button onClick={()=> this.delete(i)}>Delete</Button>
         {/* <Button onClick={this.delete.bind(this)}>Delete</Button> */}
-
+        <Checkbox inputProps={{ 'aria-label': 'primary checkbox' }} />
         <hr/>
       </div>
         // <Item name={product.name} 
