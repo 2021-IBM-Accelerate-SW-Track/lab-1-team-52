@@ -4,7 +4,7 @@ import App from './App';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-var Item = class App extends React.Component{
+/*var Item = class App extends React.Component{
   constructor(props) {
     super(props);
   }
@@ -14,12 +14,18 @@ var Item = class App extends React.Component{
     return(
       <div>
         <p>{this.props.name}</p>
+        <Button>Check</Button>
         <hr/>
       </div>
     );
   }
-}
 
+//  check() {
+    
+//  }
+
+}
+*/
 var Total = class App extends React.Component{
   render(){
     return(
@@ -59,14 +65,20 @@ var ItemList = class App extends React.Component{
   constructor(props){
     super(props);
     this.state = {total: 0, 
-      itemList: [
-        {name: ""}
-    ]};
+      itemList: []
+    };
     this.calculateTotal = this.calculateTotal.bind(this);
     this.createProduct = this.createProduct.bind(this);
   }
 
   createProduct(item){
+    this.setState({
+      itemList: this.state.itemList.concat(item), 
+      total: this.state.total + 1
+    })
+  }
+
+  checkProduct(item){
     this.setState({
       itemList: this.state.itemList.concat(item), 
       total: this.state.total + 1
@@ -79,11 +91,17 @@ var ItemList = class App extends React.Component{
 
   render(){
     var component = this;
+
     var items = this.state.itemList.map(function(product){
       return(
-        <Item name={product.name} 
-        handleTotal={component.calculateTotal}/>
-      );
+        <div>
+          <p>{this.props.name}</p>
+          <Button>Check</Button>
+        <hr/>
+        </div>
+        //<Item name={product.name} 
+        //handleTotal={component.calculateTotal} />  
+    );
     });
     return(
       <div>
