@@ -20,7 +20,7 @@ var ItemForm = class App extends React.Component{
     super(props);
     this.state = {qty: 0};
   }
-  //Check
+  
 
   submit(){
     var item = {
