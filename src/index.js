@@ -51,8 +51,10 @@ var ItemList = class App extends React.Component{
   constructor(props){
     super(props);
     this.state = {total: 0, 
-      itemList: [
-    ]};
+      itemList: [],
+      editing: false,
+      editingItem: -1
+    };
     this.calculateTotal = this.calculateTotal.bind(this);
     this.createProduct = this.createProduct.bind(this);
   }
@@ -68,9 +70,28 @@ var ItemList = class App extends React.Component{
     let newlist = this.state.itemList;
     newlist.splice(i, 1);
     this.setState({
-      itemList: this.state.itemList, 
+      itemList: newlist,
       total: this.state.total - 1
     })
+  }
+
+  saveEdit(idx) {
+    let newlist = this.state.itemList;
+    // console.log(newlist[idx].name);
+    newlist[idx].name = this.refs.edit.value;
+    console.log(this.refs.edit.value, idx);
+    this.setState({
+      itemList: newlist,
+      editing: false
+    })
+  }
+
+  edit(name, idx){
+    this.setState(
+      {editing: true,
+      editingItem: idx}
+    )
+    console.log(this.state);
   }
 
   calculateTotal(){
@@ -82,22 +103,26 @@ var ItemList = class App extends React.Component{
     var items = this.state.itemList.map((item, i)=>{
       console.log(item);
       return(
-        <div  className="item">
-          <Checkbox inputProps={{ 'aria-label': 'primary checkbox' }} />
-          <div className="item-info">
-            <p className="item-name">{`${item.name}`}</p>
-            <p className="item-date-and-time">Added on {`${item.date} at ${item.time}`}</p>
-          </div>
-          <div className="delete-button">
-            <Button color="secondary" variant="contained" onClick={()=> this.delete(i)}>Delete</Button>
-          </div>
-          {/* <Button onClick={this.delete.bind(this)}>Delete</Button> */}
-          
-          {/* <hr/> */}
-        </div>
-        // <Item name={product.name} 
-        // handleTotal={component.calculateTotal}/>
-      );
+      <div>
+        <p>{`${item.name}`}</p>
+        <p>Added on {`${item.date} ${item.time}`}</p>
+        <Button onClick={()=> this.delete(i)}>Delete</Button>
+        {/* <Button onClick={this.delete.bind(this)}>Delete</Button> */}
+        <Checkbox inputProps={{ 'aria-label': 'primary checkbox' }} />
+        <Button onClick={() => this.edit(item.name, i)}>Edit</Button>
+        {this.state.editingItem === i && this.state.editing &&
+          <form>
+            <input type="text" placeholder="Write your edit here" ref="edit"/>
+            <Button onClick={()=> this.saveEdit(i)}>Save</Button>
+            <br/>
+          </form>
+        } 
+        <hr/>
+      </div>
+
+
+    );
+    
     });
     return(
       <div className="item-list">
