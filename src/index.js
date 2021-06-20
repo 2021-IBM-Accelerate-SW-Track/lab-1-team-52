@@ -103,21 +103,25 @@ var ItemList = class App extends React.Component{
     var items = this.state.itemList.map((item, i)=>{
       console.log(item);
       return(
-      <div>
-        <p>{`${item.name}`}</p>
-        <p>Added on {`${item.date} ${item.time}`}</p>
-        <Button onClick={()=> this.delete(i)}>Delete</Button>
-        {/* <Button onClick={this.delete.bind(this)}>Delete</Button> */}
+      <div className="item">
         <Checkbox inputProps={{ 'aria-label': 'primary checkbox' }} />
-        <Button onClick={() => this.edit(item.name, i)}>Edit</Button>
-        {this.state.editingItem === i && this.state.editing &&
-          <form>
-            <input type="text" placeholder="Write your edit here" ref="edit"/>
-            <Button onClick={()=> this.saveEdit(i)}>Save</Button>
-            <br/>
-          </form>
-        } 
-        <hr/>
+        <div className="item-info">
+          <p className="item-name">{`${item.name}`}</p>
+          <p className="item-date-and-time">Added on {`${item.date} at ${item.time}`}</p>
+        </div>
+        <div className="buttons">
+          <Button color="default" variant="contained" onClick={() => this.edit(item.name, i)}>Edit</Button>
+          {this.state.editingItem === i && this.state.editing &&
+            <form>
+              <input type="text" placeholder="Write your edit here" ref="edit"/>
+              <Button onClick={()=> this.saveEdit(i)}>Save</Button>
+              <br/>
+            </form>
+          } 
+          <Button color="secondary" variant="contained" onClick={()=> this.delete(i)}>Delete</Button>
+        </div>
+       
+        {/* <hr/> */}
       </div>
 
 

@@ -67,11 +67,15 @@ input{
   margin:4px 0;
 }
 
-.delete-button{
+.buttons{
   margin-left: auto; 
   margin-right: 3%;  
   margin-top: auto;
   margin-bottom: auto;
+}
+
+.buttons Button {
+  margin: 10px;
 }
 
 .total{
