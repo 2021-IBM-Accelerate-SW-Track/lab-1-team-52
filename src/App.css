@@ -1,8 +1,12 @@
+
 .App {
   text-align: center;
+  padding:30px;
 }
 
 body {
+  background-color: #c5c0e2;
+  padding: 30px;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -14,4 +18,63 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* custom css **********************************/
+
+
+.item-list{
+  background-color: #9993ba;
+  max-width: 1000px;
+  margin: auto;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+form {
+  color: #3c3757; 
+  text-align: center;
+}
+
+input{
+  background-color: #E0F2E9;
+  padding: 10px;
+  border-radius: 10px;
+  text-shadow: none;
+  margin-right: 10px;
+}
+
+.item {
+  background-color: #E0F2E9;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 20px;
+  display: flex;
+}
+
+.item-info{
+  display: block;
+}
+
+.item-name{
+  font-size: 18px;
+  margin:10px 0;
+}
+
+.item-date-and-time{
+  font-size: 12px;
+  font-style: italic;
+  margin:4px 0;
+}
+
+.delete-button{
+  margin-left: auto; 
+  margin-right: 3%;  
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.total{
+  color: #3c3757; 
+  text-align: center;
 }

@@ -8,7 +8,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 var Total = class App extends React.Component{
   render(){
     return(
-      <div>
+      <div className="total">
         <h3>Total Amount of Tasks: {this.props.total}</h3>
       </div>
     );
@@ -82,20 +82,25 @@ var ItemList = class App extends React.Component{
     var items = this.state.itemList.map((item, i)=>{
       console.log(item);
       return(
-        <div>
-        <p>{`${item.name}`}</p>
-        <p>Added on {`${item.date} ${item.time}`}</p>
-        <Button onClick={()=> this.delete(i)}>Delete</Button>
-        {/* <Button onClick={this.delete.bind(this)}>Delete</Button> */}
-        <Checkbox inputProps={{ 'aria-label': 'primary checkbox' }} />
-        <hr/>
-      </div>
+        <div  className="item">
+          <Checkbox inputProps={{ 'aria-label': 'primary checkbox' }} />
+          <div className="item-info">
+            <p className="item-name">{`${item.name}`}</p>
+            <p className="item-date-and-time">Added on {`${item.date} at ${item.time}`}</p>
+          </div>
+          <div className="delete-button">
+            <Button color="secondary" variant="contained" onClick={()=> this.delete(i)}>Delete</Button>
+          </div>
+          {/* <Button onClick={this.delete.bind(this)}>Delete</Button> */}
+          
+          {/* <hr/> */}
+        </div>
         // <Item name={product.name} 
         // handleTotal={component.calculateTotal}/>
       );
     });
     return(
-      <div>
+      <div className="item-list">
         <ItemForm handleCreate={this.createProduct}/>
         {items}
         <Total total={this.state.total} />
