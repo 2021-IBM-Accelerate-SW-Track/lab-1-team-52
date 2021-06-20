@@ -23,8 +23,14 @@ var ItemForm = class App extends React.Component{
   
 
   submit(){
+    var today = new Date(),
+    thisTime = today.getHours() + ':' + today.getMinutes(),
+    thisDate = today.getDate() +  '-' + (today.getMonth() + 1) + '-' +  today.getFullYear();
+    
     var item = {
-      name: this.refs.name.value
+      name: this.refs.name.value,
+      time: thisTime,
+      date: thisDate
     }
     this.props.handleCreate(item);
     this.refs.name.value = "";
@@ -78,6 +84,7 @@ var ItemList = class App extends React.Component{
       return(
         <div>
         <p>{`${item.name}`}</p>
+        <p>Added on {`${item.date} ${item.time}`}</p>
         <Button onClick={()=> this.delete(i)}>Delete</Button>
         {/* <Button onClick={this.delete.bind(this)}>Delete</Button> */}
         <Checkbox inputProps={{ 'aria-label': 'primary checkbox' }} />
