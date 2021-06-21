@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-import TextField from '@material-ui/core/TextField';
 
 function duplicate(task, tasks){
     for(let i = 0; i < tasks.length; i ++){
@@ -22,15 +21,13 @@ class Total extends React.Component{
   }
 };
 
-class ItemForm extends React.Component{
-  constructor(props) {
-    super(props);
-    this.state = {qty: 0};
-  }
-  
+function ItemForm(props){
+  //const [qty, setQty] = React.useState(0);
+  const [input, setInput] = React.useState("");
 
-  submit(){
-    if(duplicate(this.refs.name.value, this.props.itemList)){
+  const submit = ()=>{
+    //console.log(input, props.itemList);
+    if(duplicate(input, props.itemList)){
         return;
     }
     var today = new Date(),
@@ -38,23 +35,20 @@ class ItemForm extends React.Component{
     thisDate = today.getDate() +  '-' + (today.getMonth() + 1) + '-' +  today.getFullYear();
     
     var item = {
-      name: this.refs.name.value,
+      name: input,
       time: thisTime,
       date: thisDate
     }
-    this.props.handleCreate(item);
-    this.refs.name.value = "";
+    props.handleCreate(item);
   }
 
-  render(){
-    return(
-      <form>
-        <input type="text" data-testid="new-item-input" placeholder="Input Item Name" ref="name"/>
-        <Button data-testid="new-item-button" onClick={this.submit.bind(this)}>Add Item</Button>
-        <br/>
-      </form>
-    );
-  }
+  return(
+    <form>
+      <input type="text" data-testid="new-item-input" placeholder="Input Item Name" onChange={(e)=>{setInput(e.target.value)}}/>
+      <Button data-testid="new-item-button" onClick={submit}>Add Item</Button>
+      <br/>
+    </form>
+  );
 };
 
 export default class ItemList extends React.Component{
@@ -94,7 +88,7 @@ export default class ItemList extends React.Component{
     let newlist = this.state.itemList;
     // console.log(newlist[idx].name);
     newlist[idx].name = this.refs.edit.value;
-    console.log(this.refs.edit.value, idx);
+    //console.log(this.refs.edit.value, idx);
     this.setState({
       itemList: newlist,
       editing: false,
@@ -114,7 +108,7 @@ export default class ItemList extends React.Component{
       {editing: true,
       editingItem: idx}
     )
-    console.log(this.state);
+    //console.log(this.state);
   }
 
   calculateTotal(){
@@ -136,9 +130,8 @@ export default class ItemList extends React.Component{
   }
 
   render(){
-    var component = this;
     var items = this.state.itemList.map((item, i)=>{
-      console.log(item);
+      //console.log(item);
       return(
       <div className="item">
         <Checkbox inputProps={{ 'aria-label': 'primary checkbox' }} />
