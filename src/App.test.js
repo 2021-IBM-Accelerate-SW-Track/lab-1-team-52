@@ -29,5 +29,5 @@ test('test that new-item-button is a button', () => {
 test('test that new-item-input is an input ', () => {
   render(<App/>, container);
   const element = screen.getByTestId('new-item-input');
-  expect(element.innerHTML.toLowerCase().includes("input")).toBe(true)
+  expect(element.outerHTML.toLowerCase().includes("input")).toBe(true)
 });

@@ -1,9 +1,9 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import TextField from '@material-ui/core/TextField';
 
 function duplicate(task, tasks){
-    console.log(task, tasks);
     for(let i = 0; i < tasks.length; i ++){
         if(task === tasks[i].name){
             return true;
@@ -49,8 +49,8 @@ class ItemForm extends React.Component{
   render(){
     return(
       <form>
-        <input type="text" placeholder="Item Name" ref="name" data-testid="new-item-input"/>
-        <Button onClick={this.submit.bind(this)} data-testid="new-item-button">Add Item</Button>
+        <input type="text" data-testid="new-item-input" placeholder="Input Item Name" ref="name"/>
+        <Button data-testid="new-item-button" onClick={this.submit.bind(this)}>Add Item</Button>
         <br/>
       </form>
     );
@@ -77,12 +77,14 @@ export default class ItemList extends React.Component{
   }
 
   delete(i){
-    let newlist = this.state.itemList;
-    newlist.splice(i, 1);
-    this.setState({
-      itemList: newlist,
-      total: this.state.total - 1
-    })
+    if (!this.state.editing) {
+      let newlist = this.state.itemList;
+      newlist.splice(i, 1);
+      this.setState({
+        itemList: newlist,
+        total: this.state.total - 1
+      })
+    }
   }
 
   saveEdit(idx) {
@@ -95,8 +97,16 @@ export default class ItemList extends React.Component{
     console.log(this.refs.edit.value, idx);
     this.setState({
       itemList: newlist,
-      editing: false
+      editing: false,
+      editingItem: -1
     })
+  }
+
+  cancelEdit() {
+    this.setState(
+      {editing: false,
+      editingItem: -1}
+    )
   }
 
   edit(name, idx){
@@ -110,8 +120,23 @@ export default class ItemList extends React.Component{
   calculateTotal(){
     this.setState({total: this.state.total + 1});
   }
+  alphaSort(){   
+    let newlist = this.state.itemList;
+    newlist.sort((a, b)=>{
+      if (a.name < b.name){
+        return -1;
+      } else if (a.name > b.name){
+        return 1;
+      } return 0;
+    });
+    this.setState({
+      itemList: newlist
+    })
+
+  }
 
   render(){
+    var component = this;
     var items = this.state.itemList.map((item, i)=>{
       console.log(item);
       return(
@@ -126,7 +151,10 @@ export default class ItemList extends React.Component{
           {this.state.editingItem === i && this.state.editing &&
             <form>
               <input type="text" placeholder="Write your edit here" ref="edit"/>
-              <Button onClick={()=> this.saveEdit(i)}>Save</Button>
+              <div display="inline">
+                <Button onClick={()=> this.saveEdit(i)} display="inline">Save</Button>
+                <Button onClick={()=> this.cancelEdit(i)} display="inline">Cancel</Button>
+              </div>
               <br/>
             </form>
           } 
@@ -143,6 +171,7 @@ export default class ItemList extends React.Component{
     return(
       <div className="item-list">
         <ItemForm handleCreate={this.createProduct} itemList={this.state.itemList}/>
+        <Button onClick={()=> this.alphaSort()}> Sort Alphabetically</Button>
         {items}
         <Total total={this.state.total} />
       </div>
