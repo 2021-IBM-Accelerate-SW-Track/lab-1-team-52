@@ -67,12 +67,14 @@ var ItemList = class App extends React.Component{
   }
 
   delete(i){
-    let newlist = this.state.itemList;
-    newlist.splice(i, 1);
-    this.setState({
-      itemList: newlist,
-      total: this.state.total - 1
-    })
+    if (!this.state.editing) {
+      let newlist = this.state.itemList;
+      newlist.splice(i, 1);
+      this.setState({
+        itemList: newlist,
+        total: this.state.total - 1
+      })
+    }
   }
 
   saveEdit(idx) {
@@ -82,8 +84,16 @@ var ItemList = class App extends React.Component{
     console.log(this.refs.edit.value, idx);
     this.setState({
       itemList: newlist,
-      editing: false
+      editing: false,
+      editingItem: -1
     })
+  }
+
+  cancelEdit() {
+    this.setState(
+      {editing: false,
+      editingItem: -1}
+    )
   }
 
   edit(name, idx){
@@ -114,7 +124,10 @@ var ItemList = class App extends React.Component{
           {this.state.editingItem === i && this.state.editing &&
             <form>
               <input type="text" placeholder="Write your edit here" ref="edit"/>
-              <Button onClick={()=> this.saveEdit(i)}>Save</Button>
+              <div display="inline">
+                <Button onClick={()=> this.saveEdit(i)} display="inline">Save</Button>
+                <Button onClick={()=> this.cancelEdit(i)} display="inline">Cancel</Button>
+              </div>
               <br/>
             </form>
           } 
