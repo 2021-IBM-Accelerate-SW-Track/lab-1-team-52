@@ -97,6 +97,20 @@ var ItemList = class App extends React.Component{
   calculateTotal(){
     this.setState({total: this.state.total + 1});
   }
+  alphaSort(){   
+    let newlist = this.state.itemList;
+    newlist.sort((a, b)=>{
+      if (a.name < b.name){
+        return -1;
+      } else if (a.name > b.name){
+        return 1;
+      } return 0;
+    });
+    this.setState({
+      itemList: newlist
+    })
+
+  }
 
   render(){
     var component = this;
@@ -131,6 +145,7 @@ var ItemList = class App extends React.Component{
     return(
       <div className="item-list">
         <ItemForm handleCreate={this.createProduct}/>
+        <Button onClick={()=> this.alphaSort()}> Sort Alphabetically</Button>
         {items}
         <Total total={this.state.total} />
       </div>
